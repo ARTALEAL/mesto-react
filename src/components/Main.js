@@ -1,19 +1,20 @@
-function Main() {
-  function handleEditAvatarClick() {
-    const popUp = document.querySelector('.popup_avatar');
-    popUp.classList.add('popup_opened');
-  }
+import React from 'react';
 
-  function handleEditProfileClick() {
-    const popUP = document.querySelector('.popup_profile-edit');
-    popUP.classList.add('popup_opened');
-  }
+function Main({ onEditAvatar, onEditProfile, onAddPlace }) {
+  // function handleEditAvatarClick() {
+  //   const popUp = document.querySelector('.popup_avatar');
+  //   popUp.classList.add('popup_opened');
+  // }
 
-  function handleAddPlaceClick() {
-    const popup = document.querySelector('.popup_add-card');
-    popup.classList.add('popup_opened');
-  }
+  // function handleEditProfileClick() {
+  //   const popUP = document.querySelector('.popup_profile-edit');
+  //   popUP.classList.add('popup_opened');
+  // }
 
+  // function handleAddPlaceClick() {
+  //   const popup = document.querySelector('.popup_add-card');
+  //   popup.classList.add('popup_opened');
+  // }
   return (
     <main className="main">
       <section className="profile">
@@ -22,10 +23,7 @@ function Main() {
           src="<%=require('./images/profile-image.png')%>"
           alt="Фотография профиля"
         />
-        <button
-          className="profile__avatar-btn"
-          onClick={handleEditAvatarClick}
-        ></button>
+        <button className="profile__avatar-btn" onClick={onEditAvatar}></button>
         <div className="profile__info-container">
           <div className="profile__info">
             <h1 className="profile__name">Жак-Ив Кусто</h1>
@@ -33,7 +31,7 @@ function Main() {
               className="button profile__button-edit"
               type="button"
               aria-label="редактирование профиля"
-              onClick={handleEditProfileClick}
+              onClick={onEditProfile}
             ></button>
             <p className="profile__description">Исследователь океана</p>
           </div>
@@ -41,7 +39,7 @@ function Main() {
             className="button profile__button-add"
             type="button"
             aria-label="добавить"
-            onClick={handleAddPlaceClick}
+            onClick={onAddPlace}
           ></button>
         </div>
       </section>
@@ -49,7 +47,7 @@ function Main() {
 
       {/* PopUP profile */}
 
-      <div className="popup popup_profile-edit">
+      {/* <div className="popup popup_profile-edit">
         <div className="popup__container">
           <h2 className="popup__title">Редактировать профиль</h2>
           <form method="post" className="popup__form" name="user" novalidate>
@@ -85,11 +83,11 @@ function Main() {
             Закрыть
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* POPUP add card */}
 
-      <div className="popup popup_add-card">
+      {/* <div className="popup popup_add-card">
         <div className="popup__container">
           <h2 className="popup__title">Новое место</h2>
           <form
@@ -129,11 +127,11 @@ function Main() {
             Закрыть
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* POPUP popup_gallery */}
 
-      <div className="popup popup_gallery">
+      {/* <div className="popup popup_gallery">
         <div className="popup__preview">
           <figure className="popup__figure">
             <img className="popup__image" src="#" alt="Фотография" />
@@ -143,11 +141,11 @@ function Main() {
             Закрыть
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* POPUP confirmation */}
 
-      <div className="popup popup_confirmation">
+      {/* <div className="popup popup_confirmation">
         <div className="popup__container">
           <form id="form_remove" className="popup__form">
             <h2 className="popup__title">Вы уверены?</h2>
@@ -159,11 +157,11 @@ function Main() {
             Закрыть
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* PopUP avatar */}
 
-      <div className="popup popup_avatar">
+      {/* <div className="popup popup_avatar">
         <div className="popup__container">
           <h2 className="popup__title">Обновить аватар</h2>
           <form
@@ -196,7 +194,7 @@ function Main() {
             id="closeAvatar"
           ></button>
         </div>
-      </div>
+      </div> */}
     </main>
   );
 }
