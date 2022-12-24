@@ -45,6 +45,6 @@
 [Проект Место](https://artaleal.github.io/mesto/)
 
 **Инструкция по установке**  
-npm install - установка
+npm install - установка  
 npm run build - сборка проекта  
 npm run start - запуск локального сервера
