@@ -4,12 +4,15 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
-import { api } from '../utils/Api';
+import { api } from '../utils/api';
+import ImagePopup from './ImagePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isOpenCardPopup, setIsOpenCardPopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({});
 
   //Api states
   const [userAvatar, setUserAvatar] = useState('');
@@ -49,6 +52,11 @@ function App() {
     setIsEditAvatarPopupOpen(true);
   };
 
+  const handleCardClick = (card) => {
+    setIsOpenCardPopupOpen(true);
+    setSelectedCard(card);
+  };
+
   const closeAllPopups = (evt) => {
     if (
       evt.target.classList.contains('popup_opened') ||
@@ -57,6 +65,7 @@ function App() {
       setIsEditProfilePopupOpen(false);
       setIsAddPlacePopupOpen(false);
       setIsEditAvatarPopupOpen(false);
+      setIsOpenCardPopupOpen(false);
     }
   };
 
@@ -71,6 +80,8 @@ function App() {
           userAvatar={userAvatar}
           userName={userName}
           userDescription={userDescription}
+          cards={cards}
+          onCardClick={handleCardClick}
         />
         <Footer />
 
@@ -80,6 +91,7 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           title="Редактировать профиль"
           onClose={closeAllPopups}
+          name="profile"
         >
           <input
             type="text"
@@ -117,6 +129,7 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           title="Новое место"
           onClose={closeAllPopups}
+          name="add-card"
         >
           <input
             type="text"
@@ -153,6 +166,7 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           title="Обновить аватар"
           onClose={closeAllPopups}
+          name="edit-avatar"
         >
           <input
             type="url"
@@ -168,6 +182,11 @@ function App() {
             Сохранить
           </button>
         </PopupWithForm>
+        <ImagePopup
+          isOpen={isOpenCardPopup}
+          card={selectedCard}
+          onClose={closeAllPopups}
+        ></ImagePopup>
       </div>
     </div>
   );
