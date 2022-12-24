@@ -11,23 +11,31 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
 
   const openEditProfileClick = () => {
-    console.log('clicked');
     setIsEditProfilePopupOpen(true);
   };
 
   const openAddPlaceClick = () => {
-    console.log('clicked');
     setIsAddPlacePopupOpen(true);
   };
 
   const openEditAvatarClick = () => {
-    console.log('clicked');
     setIsEditAvatarPopupOpen(true);
+  };
+
+  const closeAllPopups = (evt) => {
+    if (
+      evt.target.classList.contains('popup_opened') ||
+      evt.target.classList.contains('popup__close-button')
+    ) {
+      setIsEditProfilePopupOpen(false);
+      setIsAddPlacePopupOpen(false);
+      setIsEditAvatarPopupOpen(false);
+    }
   };
 
   return (
     <div className="App">
-      <body className="page">
+      <div className="page">
         <Header />
         <Main
           onEditAvatar={openEditAvatarClick}
@@ -38,9 +46,10 @@ function App() {
 
         {/* POPUP profile */}
         <PopupWithForm
-          name="name"
           className="profile-edit"
           isOpen={isEditProfilePopupOpen}
+          title="Редактировать профиль"
+          onClose={closeAllPopups}
         >
           <input
             type="text"
@@ -48,7 +57,7 @@ function App() {
             className="popup__input popup__input_data_name"
             placeholder="Имя"
             id="input-popup-title"
-            value="Жак-Ив Кусто"
+            defaultValue="Жак-Ив Кусто"
             minLength="2"
             maxLength="40"
             required
@@ -60,13 +69,72 @@ function App() {
             className="popup__input popup__input_data_job"
             placeholder="Вид деятельности"
             id="input-popup-subtitle"
-            value="Исследователь океана"
+            defaultValue="Исследователь океана"
             minLength="2"
             maxLength="200"
             required
           />
           <span className="popup__error-message input-popup-subtitle-error"></span>
           <button className="button popup__submit-button" type="submit">
+            Сохранить
+          </button>
+        </PopupWithForm>
+
+        {/* PopUP addCard */}
+
+        <PopupWithForm
+          className="add-card"
+          isOpen={isAddPlacePopupOpen}
+          title="Новое место"
+          onClose={closeAllPopups}
+        >
+          <input
+            type="text"
+            name="name"
+            className="popup__input popup__input_place_name"
+            placeholder="Название"
+            id="card-name"
+            minLength="2"
+            maxLength="30"
+            required
+          />
+          <span className="popup__error-message card-name-error"></span>
+          <input
+            type="url"
+            name="link"
+            className="popup__input popup__input_image_url"
+            placeholder="Ссылка на картинку"
+            id="link"
+            required
+          />
+          <span className="popup__error-message link-error"></span>
+          <button
+            className="button popup__submit-button popup__submit-button_disabled"
+            type="submit"
+          >
+            Создать
+          </button>
+        </PopupWithForm>
+
+        {/* PopUP edit Avatar */}
+
+        <PopupWithForm
+          className="popup_avatar"
+          isOpen={isEditAvatarPopupOpen}
+          title="Обновить аватар"
+          onClose={closeAllPopups}
+        >
+          <input
+            type="url"
+            className="popup__input"
+            name="avatar"
+            id="input-popup-avatar"
+            defaultValue=""
+            placeholder="Ссылка на аватар"
+            required
+          />
+          <span className="input-popup-avatar-error popup__error-message"></span>
+          <button type="submit" className="popup__submit-button" id="newAvatar">
             Сохранить
           </button>
         </PopupWithForm>
@@ -90,7 +158,7 @@ function App() {
             </div>
           </div>
         </template>
-      </body>
+      </div>
     </div>
   );
 }

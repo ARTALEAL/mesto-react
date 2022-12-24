@@ -1,28 +1,11 @@
 import React from 'react';
+import avatar from '../images/profile-image.png';
 
 function Main({ onEditAvatar, onEditProfile, onAddPlace }) {
-  // function handleEditAvatarClick() {
-  //   const popUp = document.querySelector('.popup_avatar');
-  //   popUp.classList.add('popup_opened');
-  // }
-
-  // function handleEditProfileClick() {
-  //   const popUP = document.querySelector('.popup_profile-edit');
-  //   popUP.classList.add('popup_opened');
-  // }
-
-  // function handleAddPlaceClick() {
-  //   const popup = document.querySelector('.popup_add-card');
-  //   popup.classList.add('popup_opened');
-  // }
   return (
     <main className="main">
       <section className="profile">
-        <img
-          className="profile__image"
-          src="<%=require('./images/profile-image.png')%>"
-          alt="Фотография профиля"
-        />
+        <img className="profile__image" src={avatar} alt="Фотография профиля" />
         <button className="profile__avatar-btn" onClick={onEditAvatar}></button>
         <div className="profile__info-container">
           <div className="profile__info">
@@ -44,46 +27,6 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace }) {
         </div>
       </section>
       <section className="elements" aria-label="Секция с карточками"></section>
-
-      {/* PopUP profile */}
-
-      {/* <div className="popup popup_profile-edit">
-        <div className="popup__container">
-          <h2 className="popup__title">Редактировать профиль</h2>
-          <form method="post" className="popup__form" name="user" novalidate>
-            <input
-              type="text"
-              name="name"
-              className="popup__input popup__input_data_name"
-              placeholder="Имя"
-              id="input-popup-title"
-              value="Жак-Ив Кусто"
-              minlength="2"
-              maxlength="40"
-              required
-            />
-            <span className="popup__error-message input-popup-title-error"></span>
-            <input
-              type="text"
-              name="about"
-              className="popup__input popup__input_data_job"
-              placeholder="Вид деятельности"
-              id="input-popup-subtitle"
-              value="Исследователь океана"
-              minlength="2"
-              maxlength="200"
-              required
-            />
-            <span className="popup__error-message input-popup-subtitle-error"></span>
-            <button className="button popup__submit-button" type="submit">
-              Сохранить
-            </button>
-          </form>
-          <button className="button popup__close-button" type="button">
-            Закрыть
-          </button>
-        </div>
-      </div> */}
 
       {/* POPUP add card */}
 
