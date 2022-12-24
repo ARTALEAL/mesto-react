@@ -4,11 +4,38 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import { api } from '../utils/Api';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+
+  //Api states
+  const [userAvatar, setUserAvatar] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userDescription, setUserDescription] = useState('');
+  const [cards, setCards] = useState([]);
+
+  React.useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([user, cards]) => {
+        setUserName(user.name);
+        setUserDescription(user.about);
+        setUserAvatar(user.avatar);
+        setCards(
+          cards.map((card) => ({
+            cardId: card._id,
+            cardName: card.name,
+            cardImg: card.link,
+            cardLikes: card.likes,
+          }))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const openEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -41,6 +68,9 @@ function App() {
           onEditAvatar={openEditAvatarClick}
           onEditProfile={openEditProfileClick}
           onAddPlace={openAddPlaceClick}
+          userAvatar={userAvatar}
+          userName={userName}
+          userDescription={userDescription}
         />
         <Footer />
 
@@ -57,7 +87,7 @@ function App() {
             className="popup__input popup__input_data_name"
             placeholder="Имя"
             id="input-popup-title"
-            defaultValue="Жак-Ив Кусто"
+            defaultValue={userName}
             minLength="2"
             maxLength="40"
             required
@@ -69,7 +99,7 @@ function App() {
             className="popup__input popup__input_data_job"
             placeholder="Вид деятельности"
             id="input-popup-subtitle"
-            defaultValue="Исследователь океана"
+            defaultValue={userDescription}
             minLength="2"
             maxLength="200"
             required
@@ -138,26 +168,6 @@ function App() {
             Сохранить
           </button>
         </PopupWithForm>
-
-        <template id="card">
-          <div className="element">
-            <button className="element__delete-button" type="button"></button>
-            <img
-              className="element__picture"
-              src="images/places/karachaevsk.png"
-              alt="Карачаевск-Черкесск"
-            />
-            <div className="element__description">
-              <h2 className="element__title">
-                Карачаево-Черкесская Республика
-              </h2>
-              <div className="element__like-number">
-                <button className="element__like-button" type="button"></button>
-                <span className="element__like-container"></span>
-              </div>
-            </div>
-          </div>
-        </template>
       </div>
     </div>
   );

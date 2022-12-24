@@ -1,22 +1,33 @@
 import React from 'react';
-import avatar from '../images/profile-image.png';
+import Card from './Card';
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace }) {
+function Main({
+  onEditAvatar,
+  onEditProfile,
+  onAddPlace,
+  userAvatar,
+  userName,
+  userDescription,
+}) {
   return (
     <main className="main">
       <section className="profile">
-        <img className="profile__image" src={avatar} alt="Фотография профиля" />
+        <img
+          className="profile__image"
+          src={userAvatar}
+          alt="Фотография профиля"
+        />
         <button className="profile__avatar-btn" onClick={onEditAvatar}></button>
         <div className="profile__info-container">
           <div className="profile__info">
-            <h1 className="profile__name">Жак-Ив Кусто</h1>
+            <h1 className="profile__name">{userName}</h1>
             <button
               className="button profile__button-edit"
               type="button"
               aria-label="редактирование профиля"
               onClick={onEditProfile}
             ></button>
-            <p className="profile__description">Исследователь океана</p>
+            <p className="profile__description">{userDescription}</p>
           </div>
           <button
             className="button profile__button-add"
