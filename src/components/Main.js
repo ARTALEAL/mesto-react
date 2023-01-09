@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Card from './Card';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Main(props) {
+  const currentUser = useContext(CurrentUserContext);
+  const { name, about, avatar } = currentUser;
+
   return (
     <main className="main">
       <section className="profile">
         <img
           className="profile__image"
-          src={props.userAvatar}
+          // src={props.userAvatar}
+          src={avatar}
           alt="Фотография профиля"
         />
         <button
@@ -16,14 +21,16 @@ function Main(props) {
         ></button>
         <div className="profile__info-container">
           <div className="profile__info">
-            <h1 className="profile__name">{props.userName}</h1>
+            {/* <h1 className="profile__name">{props.userName}</h1> */}
+            <h1 className="profile__name">{name}</h1>
             <button
               className="button profile__button-edit"
               type="button"
               aria-label="редактирование профиля"
               onClick={props.onEditProfile}
             ></button>
-            <p className="profile__description">{props.userDescription}</p>
+            {/* <p className="profile__description">{props.userDescription}</p> */}
+            <p className="profile__description">{about}</p>
           </div>
           <button
             className="button profile__button-add"
