@@ -36,6 +36,7 @@ function App() {
             cardName: card.name,
             cardImg: card.link,
             cardLikes: card.likes,
+            cardOwner: card.owner._id,
           }))
         );
       })
@@ -60,6 +61,25 @@ function App() {
     setIsOpenCardPopupOpen(true);
     setSelectedCard(card);
   };
+
+  function handleCardLike(card) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.cardLikes.some((i) => i._id === currentUser._id);
+
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    api
+      .changeLikeCardStatus(card.cardId, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card.cardId ? newCard : c))
+        );
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+  }
+
+  function handleCardDelete(card) {}
 
   const closeAllPopups = (evt) => {
     if (
@@ -87,6 +107,8 @@ function App() {
             userDescription={userDescription}
             cards={cards}
             onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
           />
           <Footer />
 

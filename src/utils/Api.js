@@ -81,6 +81,14 @@ export default class Api {
       headers: this._headers,
     }).then((res) => this._parseResponse(res));
   }
+
+  // like/dislike
+  changeLikeCardStatus(cardId, isLiked) {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      method: `${!isLiked ? 'DELETE' : 'PUT'}`,
+      headers: this._headers,
+    }).then((res) => this._parseResponse(res));
+  }
 }
 
 export const api = new Api({
