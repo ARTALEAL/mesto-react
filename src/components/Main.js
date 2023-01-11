@@ -9,19 +9,13 @@ function Main(props) {
   return (
     <main className="main">
       <section className="profile">
-        <img
-          className="profile__image"
-          // src={props.userAvatar}
-          src={avatar}
-          alt="Фотография профиля"
-        />
+        <img className="profile__image" src={avatar} alt="Фотография профиля" />
         <button
           className="profile__avatar-btn"
           onClick={props.onEditAvatar}
         ></button>
         <div className="profile__info-container">
           <div className="profile__info">
-            {/* <h1 className="profile__name">{props.userName}</h1> */}
             <h1 className="profile__name">{name}</h1>
             <button
               className="button profile__button-edit"
@@ -29,7 +23,6 @@ function Main(props) {
               aria-label="редактирование профиля"
               onClick={props.onEditProfile}
             ></button>
-            {/* <p className="profile__description">{props.userDescription}</p> */}
             <p className="profile__description">{about}</p>
           </div>
           <button
@@ -43,7 +36,7 @@ function Main(props) {
       <section className="elements" aria-label="Секция с карточками">
         {props.cards.map((card) => (
           <Card
-            key={card.cardId}
+            key={card._id}
             card={card}
             onCardClick={props.onCardClick}
             onCardLike={props.onCardLike}

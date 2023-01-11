@@ -30,15 +30,16 @@ function App() {
         setUserDescription(user.about);
         setUserAvatar(user.avatar);
         setCurrentUser(user);
-        setCards(
-          cards.map((card) => ({
-            cardId: card._id,
-            cardName: card.name,
-            cardImg: card.link,
-            cardLikes: card.likes,
-            cardOwner: card.owner._id,
-          }))
-        );
+        // setCards(
+        //   cards.map((card) => ({
+        //     cardId: card._id,
+        //     cardName: card.name,
+        //     cardImg: card.link,
+        //     cardLikes: card.likes,
+        //     cardOwner: card.owner._id,
+        //   }))
+        // );
+        setCards([...cards]);
       })
       .catch((err) => {
         console.log(err);
@@ -64,14 +65,14 @@ function App() {
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.cardLikes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api
-      .changeLikeCardStatus(card.cardId, !isLiked)
+      .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) =>
-          state.map((c) => (c._id === card.cardId ? newCard : c))
+          state.map((c) => (c._id === card._id ? newCard : c))
         );
       })
       .catch((err) => {
