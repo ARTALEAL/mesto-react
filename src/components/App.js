@@ -80,7 +80,17 @@ function App() {
       });
   }
 
-  function handleCardDelete(card) {}
+  function handleCardDelete(card) {
+    const cardId = card._id;
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards((cards) => cards.filter((card) => card._id !== cardId));
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+  }
 
   const closeAllPopups = (evt) => {
     if (
