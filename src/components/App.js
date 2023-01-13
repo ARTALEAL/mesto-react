@@ -7,6 +7,7 @@ import PopupWithForm from './PopupWithForm';
 import { api } from '../utils/Api';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -104,6 +105,18 @@ function App() {
     }
   };
 
+  function handleUpdateUser(newUserInfo) {
+    api
+      .editUserInfo(newUserInfo)
+      .then((data) => {
+        setCurrentUser(data);
+        setIsEditProfilePopupOpen(false);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -124,7 +137,12 @@ function App() {
           <Footer />
 
           {/* POPUP profile */}
-          <PopupWithForm
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
+          />
+          {/* <PopupWithForm
             className="profile-edit"
             isOpen={isEditProfilePopupOpen}
             title="Редактировать профиль"
@@ -156,7 +174,7 @@ function App() {
               required
             />
             <span className="popup__error-message input-popup-subtitle-error"></span>
-          </PopupWithForm>
+          </PopupWithForm> */}
 
           {/* PopUP addCard */}
 
