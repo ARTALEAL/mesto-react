@@ -8,6 +8,7 @@ import { api } from '../utils/Api';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -117,6 +118,18 @@ function App() {
       });
   }
 
+  function handleUpdateAvatar(newData) {
+    api
+      .editAvatar(newData)
+      .then((data) => {
+        setCurrentUser(data);
+        setIsEditAvatarPopupOpen(false);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -209,8 +222,12 @@ function App() {
           </PopupWithForm>
 
           {/* PopUP edit Avatar */}
-
-          <PopupWithForm
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
+          {/* <PopupWithForm
             className="popup_avatar"
             isOpen={isEditAvatarPopupOpen}
             title="Обновить аватар"
@@ -228,7 +245,7 @@ function App() {
               required
             />
             <span className="input-popup-avatar-error popup__error-message"></span>
-          </PopupWithForm>
+          </PopupWithForm> */}
           <ImagePopup
             isOpen={isOpenCardPopup}
             card={selectedCard}
