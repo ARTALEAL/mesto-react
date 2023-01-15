@@ -3,12 +3,13 @@ import '../index.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
+// import PopupWithForm from './PopupWithForm';
 import { api } from '../utils/Api';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -130,6 +131,13 @@ function App() {
       });
   }
 
+  function handleAddPlaceSubmit(newCard) {
+    api.addCard(newCard).then((data) => {
+      setCards([data, ...cards]);
+      setIsAddPlacePopupOpen(false);
+    });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -190,8 +198,12 @@ function App() {
           </PopupWithForm> */}
 
           {/* PopUP addCard */}
-
-          <PopupWithForm
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onAddPlace={handleAddPlaceSubmit}
+          />
+          {/* <PopupWithForm
             className="add-card"
             isOpen={isAddPlacePopupOpen}
             title="Новое место"
@@ -219,7 +231,7 @@ function App() {
               required
             />
             <span className="popup__error-message link-error"></span>
-          </PopupWithForm>
+          </PopupWithForm> */}
 
           {/* PopUP edit Avatar */}
           <EditAvatarPopup
