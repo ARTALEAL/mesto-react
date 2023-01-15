@@ -1,7 +1,7 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, onLoading }) {
   // Стейт, в котором содержится значение инпута
   const [name, setName] = React.useState('');
   const [link, setLink] = React.useState('');
@@ -34,7 +34,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       title="Новое место"
       onClose={onClose}
       name="add-card"
-      buttontext="Создать"
+      //   buttontext="Создать"
+      buttontext={onLoading ? 'Сохранение...' : 'Создать'}
       onSubmit={handleSubmit}
     >
       <input

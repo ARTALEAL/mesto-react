@@ -17,6 +17,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isOpenCardPopup, setIsOpenCardPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   //Api states
   const [userAvatar, setUserAvatar] = useState('');
@@ -108,6 +109,7 @@ function App() {
   };
 
   function handleUpdateUser(newUserInfo) {
+    setIsLoading(true);
     api
       .editUserInfo(newUserInfo)
       .then((data) => {
@@ -116,10 +118,12 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleUpdateAvatar(newData) {
+    setIsLoading(true);
     api
       .editAvatar(newData)
       .then((data) => {
@@ -128,14 +132,19 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleAddPlaceSubmit(newCard) {
-    api.addCard(newCard).then((data) => {
-      setCards([data, ...cards]);
-      setIsAddPlacePopupOpen(false);
-    });
+    setIsLoading(true);
+    api
+      .addCard(newCard)
+      .then((data) => {
+        setCards([data, ...cards]);
+        setIsAddPlacePopupOpen(false);
+      })
+      .finally(() => setIsLoading(false));
   }
 
   return (
@@ -162,6 +171,7 @@ function App() {
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
+            onLoading={isLoading}
           />
           {/* <PopupWithForm
             className="profile-edit"
@@ -202,6 +212,7 @@ function App() {
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
+            onLoading={isLoading}
           />
           {/* <PopupWithForm
             className="add-card"
@@ -238,6 +249,7 @@ function App() {
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
+            onLoading={isLoading}
           />
           {/* <PopupWithForm
             className="popup_avatar"

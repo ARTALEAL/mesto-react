@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import PopupWithForm from './PopupWithForm';
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, onLoading }) {
   const currentUser = useContext(CurrentUserContext);
 
   // Стейт, в котором содержится значение инпута
@@ -41,7 +41,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       title="Редактировать профиль"
       onClose={onClose}
       name="profile"
-      buttontext="Сохранить"
+      // buttontext="Сохранить"
+      buttontext={onLoading ? 'Сохранение...' : 'Сохранить'}
       onSubmit={handleSubmit}
     >
       <input
