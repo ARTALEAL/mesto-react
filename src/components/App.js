@@ -10,14 +10,18 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import PopupWithConfirmation from './PopupWithConfirmation';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isOpenCardPopup, setIsOpenCardPopupOpen] = useState(false);
+  const [isOpenPopupWithConfirmation, setIsOpenPopupWithConfirmation] =
+    useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [removedCardId, setRemovedCardId] = useState('');
 
   //Api states
   const [userAvatar, setUserAvatar] = useState('');
@@ -67,6 +71,11 @@ function App() {
     setSelectedCard(card);
   };
 
+  const openPopupWithConfirmation = (cardId) => {
+    setIsOpenPopupWithConfirmation(true);
+    setRemovedCardId(cardId);
+  };
+
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -86,13 +95,18 @@ function App() {
 
   function handleCardDelete(card) {
     const cardId = card._id;
+    setIsLoading(true);
     api
       .deleteCard(card._id)
       .then(() => {
         setCards((cards) => cards.filter((card) => card._id !== cardId));
+        setIsOpenPopupWithConfirmation(false);
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }
 
@@ -105,6 +119,7 @@ function App() {
       setIsAddPlacePopupOpen(false);
       setIsEditAvatarPopupOpen(false);
       setIsOpenCardPopupOpen(false);
+      setIsOpenPopupWithConfirmation(false);
     }
   };
 
@@ -162,7 +177,8 @@ function App() {
             cards={cards}
             onCardClick={handleCardClick}
             onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
+            // onCardDelete={handleCardDelete}
+            onCardDelete={openPopupWithConfirmation}
           />
           <Footer />
 
@@ -275,6 +291,13 @@ function App() {
             card={selectedCard}
             onClose={closeAllPopups}
           ></ImagePopup>
+          <PopupWithConfirmation
+            isOpen={isOpenPopupWithConfirmation}
+            onClose={closeAllPopups}
+            onLoading={isLoading}
+            onSubmit={handleCardDelete}
+            card={removedCardId}
+          />
         </div>
       </div>
     </CurrentUserContext.Provider>
