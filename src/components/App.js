@@ -11,6 +11,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import PopupWithConfirmation from './PopupWithConfirmation';
+import useKeyPress from '../hooks/useKeyPress';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -110,17 +111,12 @@ function App() {
       });
   }
 
-  const closeAllPopups = (evt) => {
-    if (
-      evt.target.classList.contains('popup_opened') ||
-      evt.target.classList.contains('popup__close-button')
-    ) {
-      setIsEditProfilePopupOpen(false);
-      setIsAddPlacePopupOpen(false);
-      setIsEditAvatarPopupOpen(false);
-      setIsOpenCardPopupOpen(false);
-      setIsOpenPopupWithConfirmation(false);
-    }
+  const closeAllPopups = () => {
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsOpenCardPopupOpen(false);
+    setIsOpenPopupWithConfirmation(false);
   };
 
   function handleUpdateUser(newUserInfo) {
@@ -129,7 +125,8 @@ function App() {
       .editUserInfo(newUserInfo)
       .then((data) => {
         setCurrentUser(data);
-        setIsEditProfilePopupOpen(false);
+        // setIsEditProfilePopupOpen(false);
+        closeAllPopups();
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -143,7 +140,8 @@ function App() {
       .editAvatar(newData)
       .then((data) => {
         setCurrentUser(data);
-        setIsEditAvatarPopupOpen(false);
+        // setIsEditAvatarPopupOpen(false);
+        closeAllPopups();
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -157,10 +155,43 @@ function App() {
       .addCard(newCard)
       .then((data) => {
         setCards([data, ...cards]);
-        setIsAddPlacePopupOpen(false);
+        // setIsAddPlacePopupOpen(false);
+        closeAllPopups();
       })
       .finally(() => setIsLoading(false));
   }
+
+  // // Hook
+  // function useKeyPress(targetKey) {
+  //   // State for keeping track of whether key is pressed
+  //   const [keyPressed, setKeyPressed] = useState(false);
+  //   // If pressed key is our target key then set to true
+  //   function downHandler({ key }) {
+  //     if (key === targetKey) {
+  //       setKeyPressed(true);
+  //       closeAllPopups();
+  //     }
+  //   }
+  //   // If released key is our target key then set to false
+  //   const upHandler = ({ key }) => {
+  //     if (key === targetKey) {
+  //       setKeyPressed(false);
+  //     }
+  //   };
+  //   // Add event listeners
+  //   React.useEffect(() => {
+  //     window.addEventListener('keydown', downHandler);
+  //     window.addEventListener('keyup', upHandler);
+  //     // Remove event listeners on cleanup
+  //     return () => {
+  //       window.removeEventListener('keydown', downHandler);
+  //       window.removeEventListener('keyup', upHandler);
+  //     };
+  //   }); // Empty array ensures that effect is only run on mount and unmount
+  //   return keyPressed;
+  // }
+
+  useKeyPress('Escape', closeAllPopups);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

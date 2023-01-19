@@ -77,7 +77,7 @@ import useForm from '../hooks/useForm';
 //   );
 // }
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser, onLoading }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, onLoading, happy }) {
   const currentUser = useContext(CurrentUserContext);
 
   const { enteredValues, errors, handleChange, isFormValid, resetForm } =
@@ -107,6 +107,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, onLoading }) {
       buttontext={onLoading ? 'Сохранение...' : 'Сохранить'}
       onSubmit={handleSubmit}
       isFormValid={isFormValid}
+      happy
     >
       <input
         type="text"
