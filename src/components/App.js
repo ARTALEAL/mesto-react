@@ -3,7 +3,6 @@ import '../index.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-// import PopupWithForm from './PopupWithForm';
 import { api } from '../utils/Api';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
@@ -39,15 +38,6 @@ function App() {
         setUserDescription(user.about);
         setUserAvatar(user.avatar);
         setCurrentUser(user);
-        // setCards(
-        //   cards.map((card) => ({
-        //     cardId: card._id,
-        //     cardName: card.name,
-        //     cardImg: card.link,
-        //     cardLikes: card.likes,
-        //     cardOwner: card.owner._id,
-        //   }))
-        // );
         setCards([...cards]);
       })
       .catch((err) => {
@@ -125,7 +115,6 @@ function App() {
       .editUserInfo(newUserInfo)
       .then((data) => {
         setCurrentUser(data);
-        // setIsEditProfilePopupOpen(false);
         closeAllPopups();
       })
       .catch((err) => {
@@ -140,7 +129,6 @@ function App() {
       .editAvatar(newData)
       .then((data) => {
         setCurrentUser(data);
-        // setIsEditAvatarPopupOpen(false);
         closeAllPopups();
       })
       .catch((err) => {
@@ -155,41 +143,10 @@ function App() {
       .addCard(newCard)
       .then((data) => {
         setCards([data, ...cards]);
-        // setIsAddPlacePopupOpen(false);
         closeAllPopups();
       })
       .finally(() => setIsLoading(false));
   }
-
-  // // Hook
-  // function useKeyPress(targetKey) {
-  //   // State for keeping track of whether key is pressed
-  //   const [keyPressed, setKeyPressed] = useState(false);
-  //   // If pressed key is our target key then set to true
-  //   function downHandler({ key }) {
-  //     if (key === targetKey) {
-  //       setKeyPressed(true);
-  //       closeAllPopups();
-  //     }
-  //   }
-  //   // If released key is our target key then set to false
-  //   const upHandler = ({ key }) => {
-  //     if (key === targetKey) {
-  //       setKeyPressed(false);
-  //     }
-  //   };
-  //   // Add event listeners
-  //   React.useEffect(() => {
-  //     window.addEventListener('keydown', downHandler);
-  //     window.addEventListener('keyup', upHandler);
-  //     // Remove event listeners on cleanup
-  //     return () => {
-  //       window.removeEventListener('keydown', downHandler);
-  //       window.removeEventListener('keyup', upHandler);
-  //     };
-  //   }); // Empty array ensures that effect is only run on mount and unmount
-  //   return keyPressed;
-  // }
 
   useKeyPress('Escape', closeAllPopups);
 
@@ -220,39 +177,6 @@ function App() {
             onUpdateUser={handleUpdateUser}
             onLoading={isLoading}
           />
-          {/* <PopupWithForm
-            className="profile-edit"
-            isOpen={isEditProfilePopupOpen}
-            title="Редактировать профиль"
-            onClose={closeAllPopups}
-            name="profile"
-            buttontext="Сохранить"
-          >
-            <input
-              type="text"
-              name="name"
-              className="popup__input popup__input_data_name"
-              placeholder="Имя"
-              id="input-popup-title"
-              defaultValue={userName}
-              minLength="2"
-              maxLength="40"
-              required
-            />
-            <span className="popup__error-message input-popup-title-error"></span>
-            <input
-              type="text"
-              name="about"
-              className="popup__input popup__input_data_job"
-              placeholder="Вид деятельности"
-              id="input-popup-subtitle"
-              defaultValue={userDescription}
-              minLength="2"
-              maxLength="200"
-              required
-            />
-            <span className="popup__error-message input-popup-subtitle-error"></span>
-          </PopupWithForm> */}
 
           {/* PopUP addCard */}
           <AddPlacePopup
@@ -261,35 +185,6 @@ function App() {
             onAddPlace={handleAddPlaceSubmit}
             onLoading={isLoading}
           />
-          {/* <PopupWithForm
-            className="add-card"
-            isOpen={isAddPlacePopupOpen}
-            title="Новое место"
-            onClose={closeAllPopups}
-            name="add-card"
-            buttontext="Создать"
-          >
-            <input
-              type="text"
-              name="name"
-              className="popup__input popup__input_place_name"
-              placeholder="Название"
-              id="card-name"
-              minLength="2"
-              maxLength="30"
-              required
-            />
-            <span className="popup__error-message card-name-error"></span>
-            <input
-              type="url"
-              name="link"
-              className="popup__input popup__input_image_url"
-              placeholder="Ссылка на картинку"
-              id="link"
-              required
-            />
-            <span className="popup__error-message link-error"></span>
-          </PopupWithForm> */}
 
           {/* PopUP edit Avatar */}
           <EditAvatarPopup
@@ -298,25 +193,7 @@ function App() {
             onUpdateAvatar={handleUpdateAvatar}
             onLoading={isLoading}
           />
-          {/* <PopupWithForm
-            className="popup_avatar"
-            isOpen={isEditAvatarPopupOpen}
-            title="Обновить аватар"
-            onClose={closeAllPopups}
-            name="edit-avatar"
-            buttontext="Сохранить"
-          >
-            <input
-              type="url"
-              className="popup__input"
-              name="avatar"
-              id="input-popup-avatar"
-              defaultValue=""
-              placeholder="Ссылка на аватар"
-              required
-            />
-            <span className="input-popup-avatar-error popup__error-message"></span>
-          </PopupWithForm> */}
+
           <ImagePopup
             isOpen={isOpenCardPopup}
             card={selectedCard}
