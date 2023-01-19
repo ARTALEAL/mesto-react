@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 function useKeyPress(targetKey, closeAllPopups) {
   // State for keeping track of whether key is pressed
   const [keyPressed, setKeyPressed] = useState(false);
-  console.log(keyPressed);
   // If pressed key is our target key then set to true
   function downHandler({ key }) {
     if (key === targetKey) {
