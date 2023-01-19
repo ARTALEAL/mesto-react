@@ -3,7 +3,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import PopupWithForm from './PopupWithForm';
 import useForm from '../hooks/useForm';
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser, onLoading, happy }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, onLoading }) {
   const currentUser = useContext(CurrentUserContext);
 
   const { enteredValues, errors, handleChange, isFormValid, resetForm } =

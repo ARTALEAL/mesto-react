@@ -5,8 +5,7 @@ import useForm from '../hooks/useForm';
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, onLoading }) {
   const avatarRef = useRef();
 
-  const { enteredValues, errors, handleChange, isFormValid, resetForm } =
-    useForm();
+  const { errors, handleChange, isFormValid } = useForm();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -14,7 +13,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, onLoading }) {
     onUpdateAvatar({
       avatar: avatarRef.current.value,
     });
-    resetForm();
   }
 
   return (
@@ -33,7 +31,6 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, onLoading }) {
         className="popup__input"
         name="avatar"
         id="input-popup-avatar"
-        value={enteredValues.avatar || ''}
         placeholder="Ссылка на аватар"
         required
         ref={avatarRef}

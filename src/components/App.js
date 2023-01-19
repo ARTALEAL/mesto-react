@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../index.css';
 import Header from './Header';
 import Main from './Main';
@@ -10,7 +10,6 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import PopupWithConfirmation from './PopupWithConfirmation';
-import useKeyPress from '../hooks/useKeyPress';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -22,6 +21,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [removedCardId, setRemovedCardId] = useState('');
+  const [isOpenPopup, setIsOpenPopup] = useState(false);
 
   //Api states
   const [userAvatar, setUserAvatar] = useState('');
@@ -44,6 +44,24 @@ function App() {
         console.log(err);
       });
   }, []);
+
+  function checkPopUpOpen() {
+    if (isEditAvatarPopupOpen) {
+      setIsOpenPopup(true);
+    }
+    if (isEditProfilePopupOpen) {
+      setIsOpenPopup(true);
+    }
+    if (isAddPlacePopupOpen) {
+      setIsOpenPopup(true);
+    }
+    if (isOpenCardPopup) {
+      setIsOpenPopup(true);
+    }
+    if (isOpenPopupWithConfirmation) {
+      setIsOpenPopup(true);
+    }
+  }
 
   const openEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
@@ -148,7 +166,39 @@ function App() {
       .finally(() => setIsLoading(false));
   }
 
-  useKeyPress('Escape', closeAllPopups);
+  // Hook
+  function useKeyPress(targetKey) {
+    // State for keeping track of whether key is pressed
+    const [keyPressed, setKeyPressed] = useState(false);
+    // If pressed key is our target key then set to true
+    function downHandler({ key }) {
+      if (key === targetKey) {
+        setKeyPressed(true);
+        closeAllPopups();
+      }
+    }
+    // If released key is our target key then set to false
+    const upHandler = ({ key }) => {
+      if (key === targetKey) {
+        setKeyPressed(false);
+      }
+    };
+    // Add event listeners
+    useEffect(() => {
+      checkPopUpOpen();
+      isOpenPopup && window.addEventListener('keydown', downHandler);
+      isOpenPopup && window.addEventListener('keyup', upHandler);
+      // Remove event listeners on cleanup
+      return () => {
+        setIsOpenPopup(false);
+        isOpenPopup && window.removeEventListener('keydown', downHandler);
+        isOpenPopup && window.removeEventListener('keyup', upHandler);
+      };
+    });
+    return keyPressed;
+  }
+
+  useKeyPress('Escape');
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -165,7 +215,6 @@ function App() {
             cards={cards}
             onCardClick={handleCardClick}
             onCardLike={handleCardLike}
-            // onCardDelete={handleCardDelete}
             onCardDelete={openPopupWithConfirmation}
           />
           <Footer />

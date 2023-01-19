@@ -13,8 +13,11 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, onLoading }) {
       name: enteredValues.name,
       link: enteredValues.url,
     });
-    resetForm();
   }
+
+  React.useEffect(() => {
+    resetForm();
+  }, [resetForm, isOpen]);
 
   return (
     <PopupWithForm
